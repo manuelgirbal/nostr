@@ -10,6 +10,19 @@ contributes:
       ojs-engine: true
       filters:
         - live.lua
-    html: default
+    html:
+      toc: true
+      code-fold: true
+      code-summary: "Code"
+      toc-location: left
+      toc-title: " "
+      theme: [custom.scss]
+      include-after-body: "footer.html"
+      template-partials:
+        - title-block.html
+      css: style.css
+      smooth-scroll: true
+      code-annotations: hover
+      title-block-banner: true
     revealjs: default
     dashboard: default

@@ -1,7 +1,17 @@
 ---
 title: "Nostr report"
-format: live-html
+subtitle: "This report .... <subtitle>"
+format: 
+  live-html:
+    logo: "logo.png"                                     # Optional. Path to a logo displayed above the title
+    github-repo: "https://github.com/holtzy/lumo"        # Optional. Adds a github corner at the top right
+    primary-color: "#69b3a2"
+    self-contained: true
+    #is-particlejs-enabled: true                          # Optional: display interactive particles in the document header
+    bg-image: ""                                         # Optional: link to an image for the header background
 engine: knitr
+author: manuelgg
+date: last-modified
 webr:
     packages:
     - dplyr
@@ -15,6 +25,83 @@ webr:
 ## Subtítulo 1
 
 Algo de texto; acá debería aparecer un output de código en R sin ningún formato adicional: `r 1+2`
+
+### Cargamos datos
+
+```{webr}
+#| edit: false
+#| include: false
+#| cache: true
+
+library(httr)
+library(jsonlite)
+library(dplyr)
+
+########################################
+##### From https://api.nostr.band/ #####
+########################################
+
+## Notes
+
+# Define the URL
+url <- "https://api.nostr.band/v0/trending/notes"
+
+# Perform the GET request
+response <- GET(url, add_headers(Accept = "application/json"))
+
+# Check the status code
+if (status_code(response) == 200) {
+  # Parse the content of the response as JSON
+  content_data <- content(response, as = "text", encoding = "UTF-8")
+  
+  # Convert the JSON content to a dataframe
+  trending_notes <- as_tibble(fromJSON(content_data, flatten = TRUE)[[1]])
+  
+  # Print the dataframe
+  print(trending_notes)
+  
+  # Optional: Save to CSV if needed
+  # write.csv(data, "output.csv", row.names = FALSE)
+} else {
+  # Print the error message if the request fails
+  print(paste("Request failed with status code", status_code(response)))
+}
+
+
+## Profiles
+
+# Define the URL
+url2 <- "https://api.nostr.band/v0/trending/profiles"
+
+# Perform the GET request
+response2 <- GET(url2, add_headers(Accept = "application/json"))
+
+# Check the status code
+if (status_code(response2) == 200) {
+  # Parse the content of the response as JSON
+  content_data2 <- content(response2, as = "text", encoding = "UTF-8")
+  
+  # Convert the JSON content to a dataframe
+  trending_profiles <- as_tibble(fromJSON(content_data2, flatten = TRUE)[[1]])
+  
+  # Print the dataframe
+  print(trending_profiles)
+  
+  # Optional: Save to CSV if needed
+  # write.csv(data, "output.csv", row.names = FALSE)
+} else {
+  # Print the error message if the request fails
+  print(paste("Request failed with status code", status_code(response2)))
+}
+```
+
+```{webr}
+datatable(trending_notes)
+```
+
+```{webr}
+datatable(trending_profiles)
+```
 
 ### Testeando webr
 
@@ -107,8 +194,3 @@ ggplot(mtcars, aes(x = wt, y = mpg, group = am)) +
 ```
 
 
-#### Tabler rendering
-
-```{webr}
-datatable(mtcars)
-```
