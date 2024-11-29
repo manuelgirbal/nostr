@@ -63,3 +63,9 @@ if (status_code(response2) == 200) {
 ########################################
 #### From https://nostr.info/relayr/ ###
 ########################################
+
+
+
+########################################
+
+save.image(file = "nostr_report/data/data.RData")
