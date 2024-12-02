@@ -5,7 +5,7 @@ format:
   live-html:
     # logo: "logo.png"                                     # Optional. Path to a logo displayed above the title
     github-repo: "https://github.com/holtzy/lumo"        # Optional. Adds a github corner at the top right
-    primary-color: "#2d4a9c"
+    primary-color: "#052ea0"
     self-contained: true
     #is-particlejs-enabled: true                          # Optional: display interactive particles in the document header
     # bg-image: ""                                         # Optional: link to an image for the header background
@@ -24,12 +24,6 @@ resources:
 
 {{< include ./_extensions/r-wasm/live/_knitr.qmd >}}
 
-# Subtítulo 1
-
-Algo de texto; acá debería aparecer un output de código en R sin ningún formato adicional: `r 1+2`
-
-### Cargamos datos
-
 ```{webr}
 #| edit: false
 #| include: false
@@ -38,102 +32,27 @@ Algo de texto; acá debería aparecer un output de código en R sin ningún form
 load("data/data.RData")
 ```
 
+## Tablas 
+
 ```{webr}
-datatable(trending_notes)
+#| caption: "See trending notes table"
+#| completion: true
+
+datatable(data = trending_notes|>
+                    select(c(2,4,6)),
+          class = 'cell-border stripe',
+          rownames = FALSE,
+          filter = 'top',
+          options = list(pageLength = 5,
+                         columnDefs = list(
+                           list(width = '20px',
+                                targets = "_all"))))
 ```
 
 ```{webr}
 datatable(trending_profiles)
 ```
 
-# Testeando webr
 
-```{webr}
-fit = lm(mpg ~ am, data = mtcars)
-summary(fit)
-plot(fit)
-```
-
-```{webr}
-for (x in 1:5) {
-  print(x ** 2)
-}
-```
-
-#### Read - only cells 
-
-```{webr}
-#| edit: false
-
-df <- data.frame(foo = c(1, 2, 3), bar = c(10, 20, 30))
-df$foo
-df$bar
-```
-
-#### Autorun
-
-```{webr}
-#| autorun: true
-
-123 + 456
-```
-
-
-#### Inmediate execution
-
-```{webr}
-#| caption: Immediate Execution
-#| autorun: true
-#| runbutton: false
-foo <- 123
-bar <- 246
-foo + bar
-```
-
-#### Context aware
-
-```{webr}
-#| autorun: true
-#| completion: true
-n_mean <- 120
-n_sd <- 5
-
-# Type "n_" to see context aware suggestions
-```
-
-
-#### Execution time limit
-
-```{webr}
-#| timelimit: 3
-while (TRUE) {
-  # Loop, infinitely
-}
-```
-
-#### Editor height
-
-```{webr}
-#| min-lines: 6
-#| max-lines: 10
-x <- 173
-
-y <- 205
-
-x + y
-```
-
-
-#### Plots
-```{webr}
-#| fig-width: 8
-#| fig-height: 4
-
-ggplot(mtcars, aes(x = wt, y = mpg, group = am)) +
-  geom_point(aes(color = cyl, shape = cyl)) +
-  geom_smooth(method = lm, formula = y ~ x) +
-  ggtitle("Motor Trend Car Road Tests 🚀") +
-  scale_shape_binned()
-```
 
 
