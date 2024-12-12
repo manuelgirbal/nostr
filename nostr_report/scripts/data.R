@@ -32,6 +32,14 @@ if (status_code(response) == 200) {
   print(paste("Request failed with status code", status_code(response)))
 }
 
+# Get display name
+trending_notes$display.name <- if_else(
+  sub('.*"name":"(.*?)".*', '\\1', trending_notes$author.content) == "",
+  sub('.*"display_name":"(.*?)".*', '\\1', trending_notes$author.content),
+  sub('.*"name":"(.*?)".*', '\\1', trending_notes$author.content)
+)
+
+
 
 ## Profiles
 
@@ -59,6 +67,13 @@ if (status_code(response2) == 200) {
   print(paste("Request failed with status code", status_code(response2)))
 }
 
+
+# Get display name
+trending_profiles$display.name <- if_else(
+  sub('.*"name":"(.*?)".*', '\\1', trending_profiles$profile.content) == "",
+  sub('.*"display_name":"(.*?)".*', '\\1', trending_profiles$profile.content),
+  sub('.*"name":"(.*?)".*', '\\1', trending_profiles$profile.content)
+)
 
 ########################################
 #### From https://nostr.info/relayr/ ###

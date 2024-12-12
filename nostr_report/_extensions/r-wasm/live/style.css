@@ -16,10 +16,15 @@ h1 {
     font-size: 3rem;
   }
 }
+
+header#title-block-header .title-block-content {
+  padding: 1px; 
+}
+
 h2 {
-  margin-top: 190px !important;
+  margin-top: 50px !important;
   margin-block-start: 20px;
-  border-bottom: 0.1px solid rgb(232, 232, 232);
+  border-bottom: 0.1px solid rgb(87, 53, 238);
   padding-bottom: 0.5rem;
   font-size: 1.875rem;
   font-weight: 600;
@@ -64,7 +69,7 @@ ul > li {
 /* ------------------------------------------- Buttons used for tabs ----------------- */
 .nav-pills .nav-link {
   color: var(--primary-color);
-  background-color: white;
+  background-color: rgb(201, 126, 245);
   border-color: var(--primary-color);
   border-radius: 4px;
 }
@@ -148,7 +153,7 @@ div.callout.callout {
 
 button {
   color: var(--primary-color);
-  background-color: white;
+  background-color: rgb(220, 191, 247);
   border: var(--primary-color) 1px solid;
   border-radius: 1px;
 }
@@ -159,4 +164,22 @@ button {
   padding-bottom: 40px;
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+
+/* ------------------------------------------- Other ----------------- */
+h2#toc-title {
+  display: none;
+}
+
+.btn-exercise-editor {
+    background-color: #8250ac !important; 
+    border-color: #8250ac !important; 
+    color: #fff !important;
+}
+
+.btn-exercise-editor:hover {
+  background-color: #8858af !important;
+  border-color: #8858af !important;
+  color: #fff !important;
 }

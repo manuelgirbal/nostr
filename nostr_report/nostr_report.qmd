@@ -1,11 +1,11 @@
 ---
 title: "Nostr report"
-subtitle: "This report .... <subtitle>"
+subtitle: "What's happening in the Nostr ecosystem (and playing a bit with R programming)"
 format: 
   live-html:
-    # logo: "logo.png"                                     # Optional. Path to a logo displayed above the title
-    github-repo: "https://github.com/holtzy/lumo"        # Optional. Adds a github corner at the top right
-    primary-color: "#052ea0"
+    logo: "logo.png"                                     # Optional. Path to a logo displayed above the title
+    github-repo: "https://github.com/manuelgirbal/nostr"        # Optional. Adds a github corner at the top right
+    primary-color: "#8250ac"
     self-contained: true
     #is-particlejs-enabled: true                          # Optional: display interactive particles in the document header
     # bg-image: ""                                         # Optional: link to an image for the header background
@@ -15,6 +15,7 @@ date: last-modified
 webr:
     packages:
     - dplyr
+    - readr
     - ggplot2
     - DT
     # render-df: DT
@@ -32,14 +33,32 @@ resources:
 load("data/data.RData")
 ```
 
+## Introduction
+
+Algo de texto 
+
+:::{.callout}
+By the way, testeando callout. ⬆️
+:::
+
+::: {.column-margin}
+Testeando column margin call
+:::
+
+
 ## Tablas 
+
+If you wanna explore the whole content related to an id (for either a note or a profile), paste the ID in https://njump.me/ 
 
 ```{webr}
 #| caption: "See trending notes table"
 #| completion: true
 
+# Get the names of the available columns you can use in the select() function
+names(trending_notes)
+
 datatable(data = trending_notes|>
-                    select(c(2,4,6)),
+                    select(display.name, event.content),
           class = 'cell-border stripe',
           rownames = FALSE,
           filter = 'top',
@@ -47,12 +66,28 @@ datatable(data = trending_notes|>
                          columnDefs = list(
                            list(width = '20px',
                                 targets = "_all"))))
+
+# Remove "#" to the following line and run code to save the data to a CSV file
+# write_csv(trending_notes, "trending_notes.csv")
 ```
 
 ```{webr}
-datatable(trending_profiles)
+#| caption: "See trending profiles table"
+#| completion: true
+
+# Get the names of the available columns you can use in the select() function
+names(trending_notes)
+
+datatable(data = trending_profiles|>
+                    select(display.name),
+          class = 'cell-border stripe',
+          rownames = FALSE,
+          filter = 'top',
+          options = list(pageLength = 5,
+                         columnDefs = list(
+                           list(width = '20px',
+                                targets = "_all"))))
+
+# Remove "#" to the following line and run code to save the data to a CSV file
+# write_csv(trending_profiles, "trending_profiles.csv")
 ```
-
-
-
-
