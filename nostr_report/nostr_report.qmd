@@ -1,10 +1,10 @@
 ---
 title: "Nostr report"
-subtitle: "What's happening in the Nostr ecosystem (and playing a bit with R programming)"
+subtitle: "What's happening in the Nostr ecosystem (while playing with R programming)"
 format: 
   live-html:
-    logo: "logo.png"                                     # Optional. Path to a logo displayed above the title
-    github-repo: "https://github.com/manuelgirbal/nostr"        # Optional. Adds a github corner at the top right
+    logo: "logo.png"                                     
+    github-repo: "https://github.com/manuelgirbal/nostr"        
     primary-color: "#8250ac"
     self-contained: true
     #is-particlejs-enabled: true                          # Optional: display interactive particles in the document header
@@ -35,20 +35,23 @@ load("data/data.RData")
 
 ## Introduction
 
-Algo de texto 
+What's Nostr? Acronym for "Notes and Other Stuff Transmitted by Relays", it's a relatively new, simple and open protocol that enables global, decentralized, and censorship-resistant communication. 
+
+Structured around **event** objects (plain JSON) and using standard elliptic-curve cryptography for keys and signing (verifiability), it doesn't rely on a small number of trusted servers for moving or storing data; it assumes that **relays** (servers) will disappear and allows users to connect and publish to an arbitrary number of relays that they can change over time (resilience).
+
+Alongside this, we have specific **clients** or apps that validate signatures, while fetching and publishing data from relays of their choice (or the user's choice). Different client design and purpose (based on what **kind** of events receive and transmit) makes Nostr a scenario where multiple use cases can be tested, not only for social media but also for identity verification, data storage and sharing, writing wikis or blogs, streaming applications, etc.
 
 :::{.callout}
-By the way, testeando callout. ⬆️
+💡 We must keep in mind that Nostr is just a very loose set of servers with basically no connection between them, there are no guarantees of anything, and the process of keeping connected to others and finding content must be addressed through many different hackish attempts. To write Nostr applications and to use Nostr one must embrace the inherent chaos. - [fiatjaf](https://fiatjaf.com/3f106d31.html)
 :::
 
-::: {.column-margin}
-Testeando column margin call
+## Tables 
+
+The first big use case for Nostr has been the development of Twitter-like clients, such as [Amethyst](https://play.google.com/store/apps/details?id=com.vitorpamplona.amethyst&hl=en&pli=1) or [Primal](https://primal.net/). We can take a glimpse of what notes and users are trending in the following tables: 
+
+:::{.callout}
+⚠️ In the following chunks you'll see editable [R](https://www.r-project.org/) code, as this report allows for user interactivity thanks to [Quarto Live](https://r-wasm.github.io/quarto-live/)
 :::
-
-
-## Tablas 
-
-If you wanna explore the whole content related to an id (for either a note or a profile), paste the ID in https://njump.me/ 
 
 ```{webr}
 #| caption: "See trending notes table"
@@ -71,6 +74,10 @@ datatable(data = trending_notes|>
 # write_csv(trending_notes, "trending_notes.csv")
 ```
 
+::: {.column-margin}
+Data might be outdated until `curl` package is available for [WebR](https://docs.r-wasm.org/webr/latest/)
+:::
+
 ```{webr}
 #| caption: "See trending profiles table"
 #| completion: true
@@ -91,3 +98,19 @@ datatable(data = trending_profiles|>
 # Remove "#" to the following line and run code to save the data to a CSV file
 # write_csv(trending_profiles, "trending_profiles.csv")
 ```
+
+::: {.column-margin}
+If you wanna explore the whole content related to an id (for either a note or a profile), paste the ID in https://njump.me/ 
+:::
+
+## Resources
+
+### Protocol:
+- https://fiatjaf.com/nostr.html/
+- https://github.com/nostr-protocol/
+- https://nostr.com/
+
+### Data:
+- https://nostr.band/
+- https://nostr.watch/
+- https://nostr.info/
