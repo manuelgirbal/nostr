@@ -54,6 +54,27 @@ The first big use case for Nostr has been the development of Twitter-like client
 :::
 
 ```{webr}
+#| include: false
+
+# Get column names from trending_notes table
+column_names <- names(trending_notes)
+
+# Pass them to OJS
+ojs_define(column_names = column_names)
+```
+
+```{ojs}
+//| echo: false
+viewof table_columns = Inputs.checkbox(
+  column_names,
+  {
+    value: [column_names[0], column_names[1]],
+    label: "Table columns:",
+  }
+)
+```
+
+```{webr}
 #| caption: "See trending notes table"
 #| completion: true
 

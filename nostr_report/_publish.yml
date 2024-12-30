@@ -1,4 +1,4 @@
 - source: nostr_report.qmd
   quarto-pub:
     - id: 8ba835ab-c759-4b40-96f5-529b09334495
-      url: 'https://manuelgg.quarto.pub/nostr-report'
+      url: https://manuelgg.quarto.pub/nostr-report
