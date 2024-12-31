@@ -49,9 +49,7 @@ Alongside this, we have specific **clients** or apps that validate signatures, w
 
 The first big use case for Nostr has been the development of Twitter-like clients, such as [Amethyst](https://play.google.com/store/apps/details?id=com.vitorpamplona.amethyst&hl=en&pli=1) or [Primal](https://primal.net/). We can take a glimpse of what notes and users are trending in the following tables: 
 
-:::{.callout}
-⚠️ In the following chunks you'll see editable [R](https://www.r-project.org/) code, as this report allows for user interactivity thanks to [Quarto Live](https://r-wasm.github.io/quarto-live/)
-:::
+
 
 ```{webr}
 #| include: false
@@ -63,6 +61,7 @@ column_names <- names(trending_notes)
 ojs_define(column_names = column_names)
 ```
 
+### Trending notes
 ```{ojs}
 //| echo: false
 viewof table_columns = Inputs.checkbox(
@@ -75,14 +74,11 @@ viewof table_columns = Inputs.checkbox(
 ```
 
 ```{webr}
-#| caption: "See trending notes table"
-#| completion: true
+#| echo: false
+#| input:
+#|   - table_columns
 
-# Get the names of the available columns you can use in the select() function
-names(trending_notes)
-
-datatable(data = trending_notes|>
-                    select(display.name, event.content),
+datatable(data = trending_notes[,table_columns],
           class = 'cell-border stripe',
           rownames = FALSE,
           filter = 'top',
@@ -90,14 +86,13 @@ datatable(data = trending_notes|>
                          columnDefs = list(
                            list(width = '20px',
                                 targets = "_all"))))
-
-# Remove "#" to the following line and run code to save the data to a CSV file
-# write_csv(trending_notes, "trending_notes.csv")
 ```
 
 ::: {.column-margin}
-Data might be outdated until `curl` package is available for [WebR](https://docs.r-wasm.org/webr/latest/)
+⚠️ Data might be outdated until `curl` package is available for [WebR](https://docs.r-wasm.org/webr/latest/)
 :::
+
+### Trending profiles
 
 ```{webr}
 #| caption: "See trending profiles table"
@@ -120,8 +115,8 @@ datatable(data = trending_profiles|>
 # write_csv(trending_profiles, "trending_profiles.csv")
 ```
 
-::: {.column-margin}
-If you wanna explore the whole content related to an id (for either a note or a profile), paste the ID in https://njump.me/ 
+:::{.callout}
+If you wanna explore the whole content related to an id (for either a note or a profile), paste the ID in [Njump](https://njump.me/) 
 :::
 
 ## Resources
