@@ -39,7 +39,16 @@ trending_notes$display.name <- if_else(
   sub('.*"name":"(.*?)".*', '\\1', trending_notes$author.content)
 )
 
-
+# Select columns of interest
+trending_notes <- trending_notes |> 
+  transmute(user = display.name,
+         note = event.content,
+         user_pubkey = pubkey,
+         note_id = id,
+         relays,
+         posted = as.POSIXct(event.created_at, origin="1970-01-01"),
+         tags = event.tags
+        )
 
 ## Profiles
 
@@ -74,6 +83,17 @@ trending_profiles$display.name <- if_else(
   sub('.*"display_name":"(.*?)".*', '\\1', trending_profiles$profile.content),
   sub('.*"name":"(.*?)".*', '\\1', trending_profiles$profile.content)
 )
+
+
+# Select columns of interest
+trending_profiles <- trending_profiles |> 
+  transmute(user = display.name,
+           joined = as.POSIXct(profile.created_at, origin="1970-01-01"),
+           user_pubkey = pubkey,
+           new_followers_count,
+           relays,
+           profile_content = profile.content
+          )
 
 ########################################
 #### From https://nostr.info/relayr/ ###

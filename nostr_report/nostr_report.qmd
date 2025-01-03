@@ -1,6 +1,6 @@
 ---
 title: "Nostr report"
-subtitle: "What's happening in the Nostr ecosystem (while playing with R programming)"
+subtitle: "What's happening in the Nostr ecosystem"
 format: 
   live-html:
     logo: "logo.png"                                     
@@ -33,9 +33,13 @@ resources:
 load("data/data.RData")
 ```
 
+::: {.column-margin}
+⚠️ This report uses [WebR](https://docs.r-wasm.org/webr/latest/), please wait for it to load packages. 
+:::
+
 ## Introduction
 
-What's Nostr? Acronym for "Notes and Other Stuff Transmitted by Relays", it's a relatively new, simple and open protocol that enables global, decentralized, and censorship-resistant communication. 
+What's Nostr? Acronym for "Notes and Other Stuff Transmitted by Relays", it's a relatively new, simple and open **protocol** that enables global, decentralized, and censorship-resistant communication. 
 
 Structured around **event** objects (plain JSON) and using standard elliptic-curve cryptography for keys and signing (verifiability), it doesn't rely on a small number of trusted servers for moving or storing data; it assumes that **relays** (servers) will disappear and allows users to connect and publish to an arbitrary number of relays that they can change over time (resilience).
 
@@ -54,14 +58,27 @@ The first big use case for Nostr has been the development of Twitter-like client
 ```{webr}
 #| include: false
 
-# Get column names from trending_notes table
+# Get column names from tables
 column_names <- names(trending_notes)
+
+column_names_p <- names(trending_profiles)
+
 
 # Pass them to OJS
 ojs_define(column_names = column_names)
+
+ojs_define(column_names_p = column_names_p)
+
 ```
 
+
+
 ### Trending notes
+
+::: {.column-margin}
+⚠️ Data might be outdated until `curl` package is available for [WebR](https://docs.r-wasm.org/webr/latest/)
+:::
+
 ```{ojs}
 //| echo: false
 viewof table_columns = Inputs.checkbox(
@@ -82,42 +99,49 @@ datatable(data = trending_notes[,table_columns],
           class = 'cell-border stripe',
           rownames = FALSE,
           filter = 'top',
-          options = list(pageLength = 5,
+          options = list(pageLength = 10,
+                         autoWidth = FALSE,
                          columnDefs = list(
                            list(width = '20px',
                                 targets = "_all"))))
 ```
 
-::: {.column-margin}
-⚠️ Data might be outdated until `curl` package is available for [WebR](https://docs.r-wasm.org/webr/latest/)
-:::
+
 
 ### Trending profiles
 
+::: {.column-margin}
+If you wanna explore the whole content related to an id (for either a note or a profile), paste the ID in [Njump](https://njump.me/) 
+:::
+
+```{ojs}
+//| echo: false
+viewof table_columns_p = Inputs.checkbox(
+  column_names_p,
+  {
+    value: [column_names_p[0], column_names_p[1]],
+    label: "Table columns:",
+  }
+)
+```
+
 ```{webr}
-#| caption: "See trending profiles table"
-#| completion: true
+#| echo: false
+#| input:
+#|   - table_columns_p
 
-# Get the names of the available columns you can use in the select() function
-names(trending_notes)
-
-datatable(data = trending_profiles|>
-                    select(display.name),
+datatable(data = trending_profiles[,table_columns_p],
           class = 'cell-border stripe',
           rownames = FALSE,
           filter = 'top',
-          options = list(pageLength = 5,
+          options = list(pageLength = 10,
+                         autoWidth = FALSE,
                          columnDefs = list(
                            list(width = '20px',
                                 targets = "_all"))))
-
-# Remove "#" to the following line and run code to save the data to a CSV file
-# write_csv(trending_profiles, "trending_profiles.csv")
 ```
 
-:::{.callout}
-If you wanna explore the whole content related to an id (for either a note or a profile), paste the ID in [Njump](https://njump.me/) 
-:::
+
 
 ## Resources
 
